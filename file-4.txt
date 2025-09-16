@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract OwnableToggle {
+    address public owner;
+    bool public switchedOn;
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not owner");
+        _;
+    }
+
+    constructor() {
+        owner = msg.sender;
+        switchedOn = false;
+    }
+
+    function toggle() public onlyOwner {
+        switchedOn = !switchedOn;
+    }
+
+    function transferOwnership(address newOwner) public onlyOwner {
+        require(newOwner != address(0), "Zero address");
+        owner = newOwner;
+    }
+}
