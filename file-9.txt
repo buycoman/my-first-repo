@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Whitelist {
+    address public admin;
+    mapping(address => bool) public whitelisted;
+
+    modifier onlyAdmin() {
+        require(msg.sender == admin, "Not admin");
+        _;
+    }
+
+    constructor() {
+        admin = msg.sender;
+    }
+
+    function add(address user) public onlyAdmin {
+        whitelisted[user] = true;
+    }
+
+    function remove(address user) public onlyAdmin {
+        whitelisted[user] = false;
+    }
+
+    function isWhitelisted(address user) public view returns (bool) {
+        return whitelisted[user];
+    }
+}
